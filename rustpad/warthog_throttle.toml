@@ -1,0 +1,90 @@
+[axes]
+0 = "ScX"
+1 = "ScY"
+2 = "ThrottleR"
+5 = "ThrottleL"
+6 = "Slew"
+
+[triggers]
+# triggers being unsigned axies, such as that of an Xbox controller
+# no triggers for this specific device
+
+[buttons]
+# buttons, digital signals
+713 = "AutopilotToggle"
+708 = "LandingGearSilence"
+302 = "LTB"
+
+[two_way.eac]
+711 = "EacArm"
+neutral = "EacOff"
+
+[two_way.radar_altimeter]
+712 = "RadarAltimeterNormal"
+neutral = "RadarAltimeterDisarm"
+
+[two_way.apu]
+707 = "ApuStart"
+neutral = "ApuOff"
+
+[two_way.fuel_left]
+303 = "LeftFuelNormal"
+neutral = "LeftFuelOverride"
+
+[two_way.fuel_right]
+704 = "FuelRightNormal"
+neutral = "FuelRightOverride"
+
+[three_way.autopilot]
+# three way switches have two "on" states, so they get their own object defining the two "on" states and the neutral
+# state
+714 = "Path"
+715 = "Alt"
+neutral = "AltitudeHeading"
+
+[three_way.flaps]
+709 = "Up"
+710 = "Down"
+neutral = "Maneuver"
+
+[three_way.engine_operation_left]
+718 = "LeftIgnition"
+705 = "LeftMotor"
+neutral = "LeftNormal"
+
+[three_way.engine_operation_right]
+719 = "RightIgnition"
+706 = "RightMotor"
+neutral = "RightNormal"
+
+[three_way.ps]
+300 = "PsForward"
+301 = "PsBackward"
+neutral = "PsNeutral"
+
+[three_way.spd]
+294 = "SpdForward"
+295 = "SpdBackward"
+neutral = "SpdNeutral"
+
+[three_way.bs]
+296 = "BsForward"
+297 = "BsBackward"
+neutral = "BsNeutral"
+
+[three_way.ch]
+298 = "ChForward"
+299 = "ChBackward"
+neutral = "ChNeutral"
+
+[hat.cs]
+545 = "CsSouth"
+544 = "CsNorth"
+546 = "CsEast"
+547 = "CsWest"
+
+[hat.ms]
+292 = "MsSouth"
+290 = "MsMorth"
+293 = "MsEast"
+291 = "MsWest"

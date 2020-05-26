@@ -66,8 +66,11 @@ def cli(path: str):
     event_names.extend(event.released.name for event in button_events)
 
     print(event_names)
-    template = env.get_template("enum.jinja")
-    print(template.render(events=sorted(event_names)))
+    enum_template = env.get_template("enum.jinja")
+    decoder_template = env.get_template("decode.rs.jinja2")
+
+    print(enum_template.render(events=sorted(event_names)))
+    print(decoder_template.render(button_events = button_events))
 
 
 cli()
