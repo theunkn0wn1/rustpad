@@ -70,9 +70,11 @@ def cli(path: str):
     print(event_names)
     enum_template = env.get_template("enum.jinja")
     decoder_template = env.get_template("decode.rs.jinja2")
+    module_template = env.get_template("mod.rs.template")
 
-    print(enum_template.render(events=sorted(event_names)))
-    print(decoder_template.render(button_events=button_events))
+    rendered_enum = (enum_template.render(events=sorted(event_names)))
+    rendered_decoder = (decoder_template.render(button_events=button_events))
+    print(module_template.render(enum=rendered_enum, decoder=rendered_decoder, joystick="warthog"))
     output_dir = Path() / "thrustmaster.rs"
 
 cli()
