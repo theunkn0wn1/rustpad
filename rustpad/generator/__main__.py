@@ -34,8 +34,8 @@ class AxisEvent:
 
 @attr.dataclass(frozen=True)
 class TwoWaySwitchEvent:
-    high: Event
     neutral: Event
+    high: Event
 
 
 @attr.dataclass(frozen=True)
@@ -67,10 +67,21 @@ def cli(path: str):
     for obj in data['two_way'].values():
         neutral_name = obj['neutral']
         del obj['neutral']
-        code = int(list(obj.keys())[0])
+        code = list(obj.keys())[0]
         neutral_event = Event(name=neutral_name, code=code)
         high_event = Event(name=obj[f"{code}"], code=code)
         two_way_events.append(TwoWaySwitchEvent(high=high_event, neutral=neutral_event))
+
+    three_way_events: List[ThreeWaySwitchEvent] = []
+    for obj in data['three_way'].values():
+        neutral_name = obj['neutral']
+        del obj['neutral']
+        active_states = [Event(name=name, code=key) for key, name in obj.items()]
+        three_way_events.append(ThreeWaySwitchEvent(
+            # code is disregarded during generation, since the code actually matches the two active states
+            Event(name=neutral_name, code=-1),
+            *active_states
+        ))
 
     event_names = [event.action.name for event in axis_events]
 
@@ -80,6 +91,10 @@ def cli(path: str):
     for event in two_way_events:
         event_names.append(event.high.name)
         event_names.append(event.neutral.name)
+    for event in three_way_events:
+        event_names.append(event.high.name)
+        event_names.append(event.low.name)
+        event_names.append(event.neutral.name)
 
     print(event_names)
     enum_template = env.get_template("enum.jinja")
@@ -87,7 +102,7 @@ def cli(path: str):
     module_template = env.get_template("mod.rs.template")
 
     rendered_enum = enum_template.render(events=sorted(event_names))
-    rendered_decoder = decoder_template.render(button_events=button_events, two_way_events=two_way_events)
+    rendered_decoder = decoder_template.render(button_events=button_events, two_way_events=two_way_events, three_way_events=three_way_events)
     rendered_module = module_template.render(enum=rendered_enum, decoder=rendered_decoder, joystick="warthog")
     output_dir = Path() / "src" / "thrustmaster.rs"
     output_dir.write_text(rendered_module)
