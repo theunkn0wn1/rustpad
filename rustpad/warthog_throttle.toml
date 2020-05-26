@@ -1,90 +1,135 @@
-[axes]
-0 = "ScX"
-1 = "ScY"
-2 = "ThrottleR"
-5 = "ThrottleL"
-6 = "Slew"
+[[axes]]
+[axes.action]
+code = 0
+name = 'ScXAction'
+
+[[axes]]
+[axes.action]
+code = 1
+name = 'ScYAction'
+
+[[axes]]
+[axes.action]
+code = 2
+name = 'ThrottleR'
+
+[[axes]]
+[axes.action]
+code = 5
+name = 'ThrottleL'
+
+[[axes]]
+[axes.action]
+code = 6
+name = 'Slew'
 
 [triggers]
-# triggers being unsigned axies, such as that of an Xbox controller
-# no triggers for this specific device
 
-[buttons]
-# buttons, digital signals
-713 = "AutopilotToggle"
-708 = "LandingGearSilence"
-302 = "LTB"
+[[buttons]]
+code = 713
+pressed_name = 'AutopilotTogglePressed'
+released_name = 'AutopilotToggleReleased'
 
-[two_way.eac]
-711 = "EacArm"
-neutral = "EacOff"
+[[buttons]]
+code = 708
+pressed_name = 'LandingGearSilencePressed'
+released_name = 'LandingGearSilenceReleased'
 
-[two_way.radar_altimeter]
-712 = "RadarAltimeterNormal"
-neutral = "RadarAltimeterDisarm"
+[[buttons]]
+code = 302
+pressed_name = 'LtbPressed'
+released_name = 'LtbReleased'
 
-[two_way.apu]
-707 = "ApuStart"
-neutral = "ApuOff"
+[[two_way]]
+code = 711
+high = 'EacArm'
+neutral = 'EacOff'
 
-[two_way.fuel_left]
-303 = "LeftFuelNormal"
-neutral = "LeftFuelOverride"
+[[three_way]]
+neutral = 'AltitudeHeading'
 
-[two_way.fuel_right]
-704 = "FuelRightNormal"
-neutral = "FuelRightOverride"
+[three_way.high]
+code = 714
+name = 'Path'
 
-[three_way.autopilot]
-# three way switches have two "on" states, so they get their own object defining the two "on" states and the neutral
-# state
-714 = "Path"
-715 = "Alt"
-neutral = "AltitudeHeading"
+[three_way.low]
+code = 715
+name = 'Alt'
 
-[three_way.flaps]
-709 = "Up"
-710 = "Down"
-neutral = "Maneuver"
+[[three_way]]
+neutral = 'Maneuver'
 
-[three_way.engine_operation_left]
-718 = "LeftIgnition"
-705 = "LeftMotor"
-neutral = "LeftNormal"
+[three_way.high]
+code = 709
+name = 'Up'
 
-[three_way.engine_operation_right]
-719 = "RightIgnition"
-706 = "RightMotor"
-neutral = "RightNormal"
+[three_way.low]
+code = 710
+name = 'Down'
 
-[three_way.ps]
-300 = "PsForward"
-301 = "PsBackward"
-neutral = "PsNeutral"
+[[three_way]]
+neutral = 'LeftNormal'
 
-[three_way.spd]
-294 = "SpdForward"
-295 = "SpdBackward"
-neutral = "SpdNeutral"
+[three_way.high]
+code = 718
+name = 'LeftIgnition'
 
-[three_way.bs]
-296 = "BsForward"
-297 = "BsBackward"
-neutral = "BsNeutral"
+[three_way.low]
+code = 705
+name = 'LeftMotor'
 
-[three_way.ch]
-298 = "ChForward"
-299 = "ChBackward"
-neutral = "ChNeutral"
+[[three_way]]
+neutral = 'RightNormal'
 
-[hat.cs]
-545 = "CsSouth"
-544 = "CsNorth"
-546 = "CsEast"
-547 = "CsWest"
+[three_way.high]
+code = 719
+name = 'RightIgnition'
 
-[hat.ms]
-292 = "MsSouth"
-290 = "MsMorth"
-293 = "MsEast"
-291 = "MsWest"
+[three_way.low]
+code = 706
+name = 'RightMotor'
+
+[[three_way]]
+neutral = 'PsNeutral'
+
+[three_way.high]
+code = 300
+name = 'PsForward'
+
+[three_way.low]
+code = 301
+name = 'PsBackward'
+
+[[three_way]]
+neutral = 'SpdNeutral'
+
+[three_way.high]
+code = 294
+name = 'SpdForward'
+
+[three_way.low]
+code = 295
+name = 'SpdBackward'
+
+[[three_way]]
+neutral = 'BsNeutral'
+
+[three_way.high]
+code = 296
+name = 'BsForward'
+
+[three_way.low]
+code = 297
+name = 'BsBackward'
+
+[[three_way]]
+neutral = 'ChNeutral'
+
+[three_way.high]
+code = 298
+name = 'ChForward'
+
+[three_way.low]
+code = 299
+name = 'ChBackward'
+

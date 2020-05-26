@@ -26,19 +26,21 @@ pub struct AxisEvent {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ButtonEvent {
-    pub pressed: Event,
-    pub released: Event,
+    pub code: u16,
+    pub pressed_name: String,
+    pub released_name: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TwoWaySwitchEvent {
-    pub neutral: Event,
-    pub high: Event,
+    pub code: u16,
+    pub high: String,
+    pub neutral: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ThreeWaySwitchEvent {
-    pub neutral: Event,
+    pub neutral: String,
     pub high: Event,
     pub low: Event,
 }
