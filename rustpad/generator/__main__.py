@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import typing
 from pathlib import Path
 from typing import List
 
@@ -33,15 +32,15 @@ class AxisEvent:
     action: Event
 
 
-def axis(name: str, key: int) -> typing.Set[Event]:
-    return {Event(name=f"{name}Motion", code=key)}
+@attr.dataclass(frozen=True)
+class TwoWaySwitchEvent:
+    high: Event
+    neutral: Event
 
 
-def button(name: str, key: int) -> typing.Set[Event]:
-    return {
-        Event(name=f"{name}Pressed", code=key),
-        Event(name=f"{name}Released", code=key),
-    }
+@attr.dataclass(frozen=True)
+class ThreeWaySwitchEvent(TwoWaySwitchEvent):
+    low: Event
 
 
 @click.command("build")
@@ -63,9 +62,24 @@ def cli(path: str):
             pressed=Event(name=f"{base}Pressed", code=key),
             released=Event(name=f"{base}Released", code=key)
         ))
+
+    two_way_events: List[TwoWaySwitchEvent] = []
+    for obj in data['two_way'].values():
+        neutral_name = obj['neutral']
+        del obj['neutral']
+        code = int(list(obj.keys())[0])
+        neutral_event = Event(name=neutral_name, code=code)
+        high_event = Event(name=obj[f"{code}"], code=code)
+        two_way_events.append(TwoWaySwitchEvent(high=high_event, neutral=neutral_event))
+
     event_names = [event.action.name for event in axis_events]
-    event_names.extend(event.pressed.name for event in button_events)
-    event_names.extend(event.released.name for event in button_events)
+
+    for event in button_events:
+        event_names.append(event.pressed.name)
+        event_names.append(event.released.name)
+    for event in two_way_events:
+        event_names.append(event.high.name)
+        event_names.append(event.neutral.name)
 
     print(event_names)
     enum_template = env.get_template("enum.jinja")
@@ -73,7 +87,7 @@ def cli(path: str):
     module_template = env.get_template("mod.rs.template")
 
     rendered_enum = enum_template.render(events=sorted(event_names))
-    rendered_decoder = decoder_template.render(button_events=button_events)
+    rendered_decoder = decoder_template.render(button_events=button_events, two_way_events=two_way_events)
     rendered_module = module_template.render(enum=rendered_enum, decoder=rendered_decoder, joystick="warthog")
     output_dir = Path() / "src" / "thrustmaster.rs"
     output_dir.write_text(rendered_module)

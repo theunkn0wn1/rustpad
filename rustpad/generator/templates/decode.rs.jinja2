@@ -3,9 +3,17 @@ pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
         EventType::ButtonPressed(_, code) => {
             match code.into_u32(){
                 // note these values are calculated from underlying  (kind<<16 | hardware_code)
+                // begin button events
                 {% for event in button_events %}
                 {{event.pressed.encode(kind=1)}}u32 => {Some(WarthogThrottleEvent::{{event.pressed.name}})},
                 {% endfor %}
+                // end button events
+
+                // begin two-way switch events
+                {% for event in two_way_events %}
+                {{ event.neutral.encode(kind=1) }}u32 => {Some(WarthogThrottleEvent::{{event.high.name}})},
+                {% endfor %}
+                // end two-way switch events
                 _ => {None}
             }
         }
@@ -15,9 +23,17 @@ pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
         EventType::ButtonReleased(_, code) => {
             match code.into_u32(){
                 // note these values are calculated from underlying  (kind<<16 | hardware_code)
+                // begin button events
                 {% for event in button_events %}
                 {{event.pressed.encode(kind=1)}}u32 => {Some(WarthogThrottleEvent::{{event.released.name}})},
                 {% endfor %}
+                // end button events
+                // begin two-way switch events
+                {% for event in two_way_events %}
+                {{ event.neutral.encode(kind=1) }}u32 => {Some(WarthogThrottleEvent::{{event.neutral.name}})},
+                {% endfor %}
+                // end two-way switch events
+
                 _ => {None}
             }
         }
