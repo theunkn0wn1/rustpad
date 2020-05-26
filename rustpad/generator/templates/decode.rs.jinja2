@@ -1,0 +1,27 @@
+match event {
+    EventType::ButtonPressed(_, code) => {
+        match code.into_u32(){
+            {% for %}
+        }
+        println!("ButtonPressed, code: {:?}", code)
+    }
+    EventType::ButtonRepeated(_, code) => {
+        println!("ButtonRepeated, code: {:?}", code)
+    }
+    EventType::ButtonReleased(_, code) => {
+        println!("ButtonReleased, code: {:?}", code)
+    }
+    EventType::ButtonChanged(_, value, code) => {
+        // println!("ButtonChanged, code: {:?}, value: {:?}", code, value, )
+    }
+    EventType::AxisChanged(_, value, code) => {
+        println!("Axis movement, new_value: {:?}, code: {:?}", value, code)
+    }
+    EventType::Connected => {
+        println!("new device connected")
+    }
+    EventType::Disconnected => {}
+    EventType::Dropped => {
+        println!("event dropped!")
+    }
+}
