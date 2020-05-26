@@ -1,7 +1,9 @@
 match event {
     EventType::ButtonPressed(_, code) => {
         match code.into_u32(){
-            {% for %}
+            {% for event in button_events %}
+            {{event.pressed.code}}u32 => {WarthogThrottleEvent::{{event.pressed.name}}},
+            {% endfor %}
         }
         println!("ButtonPressed, code: {:?}", code)
     }
