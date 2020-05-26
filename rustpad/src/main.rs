@@ -1,6 +1,10 @@
 use gilrs::{Button, Event, EventType, Gilrs};
+
+use crate::thrustmaster::{decode, WarthogThrottleEvent};
+
 mod thrustmaster;
-use crate::thrustmaster::{WarthogThrottleEvent, decode};
+use rustpad::generator;
+
 
 fn main() {
     println!("Hello, world!");
@@ -17,7 +21,7 @@ fn main() {
         // Examine new events
         while let Some(Event { id, event, time }) = gilrs.next_event() {
             match event {
-                EventType::ButtonPressed(_, code) | EventType::ButtonReleased(_, code)=> {
+                EventType::ButtonPressed(_, code) | EventType::ButtonReleased(_, code) => {
                     let decoded = decode(event);
                     match decoded {
                         Some(decoded_event) => println!("successfully decode {:?}", decoded_event),

@@ -198,6 +198,8 @@ name = "rustpad"
 version = "0.1.0"
 dependencies = [
  "gilrs",
+ "serde",
+ "serde_derive",
  "toml",
 ]
 
