@@ -1,29 +1,40 @@
-match event {
-    EventType::ButtonPressed(_, code) => {
-        match code.into_u32(){
-            {% for event in button_events %}
-            {{event.pressed.code}}u32 => {WarthogThrottleEvent::{{event.pressed.name}}},
-            {% endfor %}
+fn decode(event : Event) -> Option<WarthogThrottleEvent>{
+    match event.event{
+        EventType::ButtonPressed(_, code) => {
+            match code.into_u32(){
+                // note these values are calculated from underlying  (kind<<16 | hardware_code)
+                {% for event in button_events %}
+                {{event.pressed.encode(kind=1)}}u32 => {Some(WarthogThrottleEvent::{{event.pressed.name}})},
+                {% endfor %}
+                _ => {None}
+            }
         }
-        println!("ButtonPressed, code: {:?}", code)
-    }
-    EventType::ButtonRepeated(_, code) => {
-        println!("ButtonRepeated, code: {:?}", code)
-    }
-    EventType::ButtonReleased(_, code) => {
-        println!("ButtonReleased, code: {:?}", code)
-    }
-    EventType::ButtonChanged(_, value, code) => {
-        // println!("ButtonChanged, code: {:?}, value: {:?}", code, value, )
-    }
-    EventType::AxisChanged(_, value, code) => {
-        println!("Axis movement, new_value: {:?}, code: {:?}", value, code)
-    }
-    EventType::Connected => {
-        println!("new device connected")
-    }
-    EventType::Disconnected => {}
-    EventType::Dropped => {
-        println!("event dropped!")
+        EventType::ButtonRepeated(_, code) => {
+            unimplemented!()
+        }
+        EventType::ButtonReleased(_, code) => {
+            match code.into_u32(){
+                // note these values are calculated from underlying  (kind<<16 | hardware_code)
+                {% for event in button_events %}
+                {{event.pressed.encode(kind=1)}}u32 => {Some(WarthogThrottleEvent::{{event.released.name}})},
+                {% endfor %}
+                _ => {None}
+            }
+        }
+        EventType::ButtonChanged(_, value, code) => {
+                    unimplemented!()
+        }
+        EventType::AxisChanged(_, value, code) => {
+            unimplemented!()
+        }
+        EventType::Connected => {
+            None
+        }
+        EventType::Disconnected => {
+            None
+        }
+        EventType::Dropped => {
+            None
+        }
     }
 }

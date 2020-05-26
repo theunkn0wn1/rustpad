@@ -16,9 +16,10 @@ env = jinja2.Environment(loader=jinja2.PackageLoader("generator"), trim_blocks=T
 class Event:
     code: int = attr.ib(validator=attr.validators.instance_of(int), converter=int)
     name: str = attr.ib(validator=attr.validators.instance_of(str))
+    """ underlying event kind, OR'ed against the code """
 
-    def events(self) -> typing.List[Event]:
-        return [self]
+    def encode(self, kind: int):
+        return kind << 16 | self.code
 
 
 @attr.dataclass(frozen=True)
@@ -52,9 +53,10 @@ def cli(path: str):
         raise click.Abort(f"{target.absolute()} does not exist.")
 
     data = toml.load(target)
-    axis_events: List[AxisEvent] = [AxisEvent(action=Event(name=f"{base}Action", code=key)) for key, base in data['axes'].items()]
+    axis_events: List[AxisEvent] = [AxisEvent(action=Event(name=f"{base}Action", code=key)) for key, base in
+                                    data['axes'].items()]
 
-    button_events:List[ButtonEvent] = []
+    button_events: List[ButtonEvent] = []
 
     for key, base in data['buttons'].items():
         button_events.append(ButtonEvent(
@@ -70,7 +72,7 @@ def cli(path: str):
     decoder_template = env.get_template("decode.rs.jinja2")
 
     print(enum_template.render(events=sorted(event_names)))
-    print(decoder_template.render(button_events = button_events))
-
+    print(decoder_template.render(button_events=button_events))
+    output_dir = Path() / "thrustmaster.rs"
 
 cli()
