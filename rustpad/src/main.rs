@@ -1,22 +1,6 @@
 use gilrs::{Button, Event, EventType, Gilrs};
-
-const LEFT_AXIS_CODE: u32 = 5;
-const RIGHT_AXIS_CODE: u32 = 2;
-
-#[derive(Debug)]
-enum WarthogThrottleEvent {
-    AutopilotTogglePressed,
-    AutopilotToggleReleased,
-    LTBPressed,
-    LTBReleased,
-    LandingGearSilencePressed,
-    LandingGearSilenceReleased,
-    ScXAction,
-    ScYAction,
-    SlewAction,
-    ThrottleLAction,
-    ThrottleRAction,
-}
+mod thrustmaster;
+use crate::thrustmaster::{WarthogThrottleEvent, decode};
 
 fn main() {
     println!("Hello, world!");
@@ -69,47 +53,3 @@ fn main() {
         }
     }
 }
-
-const BUTTON_KIND: u32 = 1 << 16;
-
-fn decode(event: EventType) -> Option<WarthogThrottleEvent> {
-    match event {
-        EventType::ButtonPressed(_, code) => {
-            match code.into_u32() {
-                // note these values are calculated from underlying  (kind<<16 | hardware_code)
-                66249u32 => { Some(WarthogThrottleEvent::AutopilotTogglePressed) }
-                66244u32 => { Some(WarthogThrottleEvent::LandingGearSilencePressed) }
-                65838u32 => { Some(WarthogThrottleEvent::LTBPressed) }
-                _ => { None }
-            }
-        }
-        EventType::ButtonRepeated(_, code) => {
-            unimplemented!()
-        }
-        EventType::ButtonReleased(_, code) => {
-            match code.into_u32() {
-                // note these values are calculated from underlying  (kind<<16 | hardware_code)
-                66249u32 => { Some(WarthogThrottleEvent::AutopilotToggleReleased) }
-                66244u32 => { Some(WarthogThrottleEvent::LandingGearSilenceReleased) }
-                65838u32 => { Some(WarthogThrottleEvent::LTBReleased) }
-                _ => { None }
-            }
-        }
-        EventType::ButtonChanged(_, value, code) => {
-            unimplemented!()
-        }
-        EventType::AxisChanged(_, value, code) => {
-            unimplemented!()
-        }
-        EventType::Connected => {
-            None
-        }
-        EventType::Disconnected => {
-            None
-        }
-        EventType::Dropped => {
-            None
-        }
-    }
-}
-

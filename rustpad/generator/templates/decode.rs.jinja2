@@ -1,5 +1,5 @@
-fn decode(event : Event) -> Option<WarthogThrottleEvent>{
-    match event.event{
+pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
+    match event{
         EventType::ButtonPressed(_, code) => {
             match code.into_u32(){
                 // note these values are calculated from underlying  (kind<<16 | hardware_code)
