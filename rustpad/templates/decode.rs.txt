@@ -1,3 +1,25 @@
+pub enum WarthogThrottleEvent{
+    // begin button_events
+    {% for event in button_events %}
+    {{- event.pressed_name }},
+    {{ event.released_name }},
+    {% endfor %}
+    // end button_events
+    // begin two_way_events
+    {% for event in two_way_events %}
+    {{- event.high }},
+    {{ event.neutral}},
+    {% endfor %}
+    //end two_way_events
+    // begin three-way events
+    {% for event in three_way_events %}
+    {{- event.high.name }},
+    {{ event.neutral }},
+    {{ event.low.name }},
+    {% endfor %}
+    // end three_way_events
+}
+
 pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
     match event{
         EventType::ButtonPressed(_, code) => {
@@ -17,8 +39,7 @@ pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
                 // begin three-way events
                 {% for event in three_way_events %}
                 {{- event.high.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.high.name -}})},
-
-                {{- event.low.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.low.name -}})},
+                {{ event.low.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.low.name -}})},
                 {% endfor %}
                 // end three-way events
                 _ => {None}
