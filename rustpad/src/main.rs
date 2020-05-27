@@ -5,7 +5,6 @@ use crate::thrustmaster::{decode, WarthogThrottleEvent};
 mod thrustmaster;
 use rustpad::generator;
 
-
 fn main() {
     println!("Hello, world!");
     let mut gilrs = Gilrs::new().unwrap();

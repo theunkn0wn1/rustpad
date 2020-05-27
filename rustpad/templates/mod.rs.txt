@@ -1,3 +1,6 @@
+use crate::event::GenericEvent;
+
+#[derive(Debug, Copy, Clone)]
 pub enum WarthogThrottleEvent{
     // begin button_events
     {% for event in button_events %}
@@ -18,74 +21,88 @@ pub enum WarthogThrottleEvent{
     {{ event.low.name }},
     {% endfor %}
     // end three_way_events
+
+    // begin axies
+    {% for event in axes %}
+    {{- event.action.name}}(u32),
+    {% endfor %}
+    // end axies
+
+    // Miscelaneous events
+    Misc(u16, u16, u32),
+    Unknown(u16, u16, u32),
+    ButtonHeld(u16)
 }
 
-pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
+pub fn decode_warthog_throttle(event : GenericEvent) -> WarthogThrottleEvent{
     match event{
-        EventType::ButtonPressed(_, code) => {
-            match code.into_u32(){
+        GenericEvent::ButtonPressed(code)=> {
+            match code{
                 // begin button events
                 {% for event in button_events %}
-                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.pressed_name -}})},
+                {{- event.code -}}u16 => {(WarthogThrottleEvent::{{- event.pressed_name -}})},
                 {% endfor %}
                 // end button events
 
                 // begin two-way switch events
                 {% for event in two_way_events %}
-                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.high -}})},
+                {{- event.code -}}u16 => {(WarthogThrottleEvent::{{- event.high -}})},
                 {% endfor %}
                 // end two-way switch events
 
                 // begin three-way events
                 {% for event in three_way_events %}
-                {{- event.high.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.high.name -}})},
-                {{ event.low.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.low.name -}})},
+                {{- event.high.code -}}u16 => {(WarthogThrottleEvent::{{- event.high.name -}})},
+                {{ event.low.code -}}u16 => {(WarthogThrottleEvent::{{- event.low.name -}})},
                 {% endfor %}
                 // end three-way events
-                _ => {None}
+                _ => {unreachable!()}
             }
         }
-        EventType::ButtonRepeated(_, code) => {
-            unimplemented!()
-        }
-        EventType::ButtonReleased(_, code) => {
-            match code.into_u32(){
+
+        GenericEvent::ButtonReleased(code) => {
+            match code{
                 // begin button events
                 {% for event in button_events %}
-                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.released_name -}})},
+                {{- event.code -}}u16 => {(WarthogThrottleEvent::{{- event.released_name -}})},
                 {% endfor %}
                 // end button events
                 // begin two-way switch events
                 {% for event in two_way_events %}
-                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
+                {{- event.code -}}u16 => {(WarthogThrottleEvent::{{- event.neutral -}})},
                 {% endfor %}
                 // end two-way switch events
 
 
                 // begin three-way events
                 {% for event in three_way_events %}
-                {{- event.high.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
-                {{ event.low.code}}u32 => {Some(WarthogThrottleEvent::{{ event.neutral -}})},
+                {{- event.high.code -}}u16 => {(WarthogThrottleEvent::{{- event.neutral -}})},
+                {{ event.low.code}}u16 => {(WarthogThrottleEvent::{{ event.neutral -}})},
                 {% endfor %}
                 // end three-way events
 
-                _ => {None}
+                _ => {unreachable!()}
             }
         }
-        EventType::ButtonChanged(_, value, code) => {
-                    unimplemented!()
+        GenericEvent::RelativeAxis(code,value) => {unreachable!()}
+        GenericEvent::AbsoluteAxis(code,value) => {
+                // begin Absolute axis events
+            match code{
+                {% for event in axes %}
+                {{- event.action.code }}u16 => WarthogThrottleEvent::{{ event.action.name }}(value),
+                {% endfor %}
+                        // end Absolute axis events
+                _ => {unreachable!()}
+            }
         }
-        EventType::AxisChanged(_, value, code) => {
-            unimplemented!()
+
+        GenericEvent::ButtonHeld(code) => {WarthogThrottleEvent::ButtonHeld(code)}
+
+        GenericEvent::Misc(kind, id, value) => {
+            WarthogThrottleEvent::Misc(kind, id, value)
         }
-        EventType::Connected => {
-            None
-        }
-        EventType::Disconnected => {
-            None
-        }
-        EventType::Dropped => {
-            None
+        GenericEvent::Unknown(kind, id, value) => {
+            WarthogThrottleEvent::Unknown(kind, id, value)
         }
     }
 }

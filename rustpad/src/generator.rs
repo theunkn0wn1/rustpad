@@ -1,12 +1,12 @@
 use std::collections::HashMap;
-use std::io::Read;
+use std::fs::OpenOptions;
+use std::io::{Read, Write};
+use std::path::PathBuf;
 
 use askama::Template;
 use serde_derive::{Deserialize, Serialize};
 use toml::Value;
 use toml::value::{Array, Table};
-use std::path::PathBuf;
-use std::fs::OpenOptions;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct DeviceDescriptor {
@@ -20,13 +20,23 @@ pub struct DeviceDescriptor {
 }
 
 impl DeviceDescriptor {
-
-    pub fn from_toml(input: PathBuf) -> Self{
+    pub fn from_toml(input: PathBuf) -> Self {
         let mut contents = String::new();
         let mut file = OpenOptions::new().read(true).open(input).unwrap();
         file.read_to_string(&mut contents).unwrap();
         let data: DeviceDescriptor = toml::from_str(&contents).unwrap();
         data
+    }
+    pub fn generate_module(self, output: PathBuf) {
+        let template = ModuleTemplate {
+            button_events: &self.buttons,
+            two_way_events: &self.two_way,
+            three_way_events: &self.three_way,
+            axes: &self.axes
+        };
+        let mut file = OpenOptions::new().create(true).write(true).open(output).unwrap();
+        let out: String = template.render().unwrap();
+        file.write_all(out.as_ref()).unwrap()
     }
 }
 
@@ -36,6 +46,7 @@ pub struct ModuleTemplate<'a> {
     pub button_events: &'a Vec<ButtonEvent>,
     pub two_way_events: &'a Vec<TwoWaySwitchEvent>,
     pub three_way_events: &'a Vec<ThreeWaySwitchEvent>,
+    pub axes: &'a Vec<AxisEvent>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

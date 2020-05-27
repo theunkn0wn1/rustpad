@@ -281,6 +281,7 @@ dependencies = [
  "gilrs",
  "serde",
  "serde_derive",
+ "stick",
  "toml",
 ]
 
@@ -354,6 +355,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2579985fda508104f7587689507983eadd6a6e84dd35d6d115361f530916fa0d"
 
 [[package]]
+name = "smelling_salts"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f2692f084bca749bf1496cb442450bb4fd9ce511cceab14133416700ea42f34"
+
+[[package]]
 name = "stdweb"
 version = "0.4.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -403,6 +410,15 @@ name = "stdweb-internal-runtime"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "213701ba3370744dcd1a12960caa4843b3d68b4d1c0a5d575e0d65b2ee9d16c0"
+
+[[package]]
+name = "stick"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2cae96d14ff9955157c7103aef1740bef58fb6ed002f0653acfc9359431bc72f"
+dependencies = [
+ "smelling_salts",
+]
 
 [[package]]
 name = "syn"
