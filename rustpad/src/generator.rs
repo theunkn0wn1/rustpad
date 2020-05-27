@@ -1,9 +1,12 @@
 use std::collections::HashMap;
+use std::io::Read;
 
 use askama::Template;
 use serde_derive::{Deserialize, Serialize};
 use toml::Value;
 use toml::value::{Array, Table};
+use std::path::PathBuf;
+use std::fs::OpenOptions;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct DeviceDescriptor {
@@ -14,6 +17,17 @@ pub struct DeviceDescriptor {
     pub buttons: Vec<ButtonEvent>,
     pub two_way: Vec<TwoWaySwitchEvent>,
     pub three_way: Vec<ThreeWaySwitchEvent>,
+}
+
+impl DeviceDescriptor {
+
+    pub fn from_toml(input: PathBuf) -> Self{
+        let mut contents = String::new();
+        let mut file = OpenOptions::new().read(true).open(input).unwrap();
+        file.read_to_string(&mut contents).unwrap();
+        let data: DeviceDescriptor = toml::from_str(&contents).unwrap();
+        data
+    }
 }
 
 #[derive(Template)]

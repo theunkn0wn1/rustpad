@@ -1,6 +1,0 @@
-/// event decoder for {{ joystick }}
-use gilrs::EventType;
-
-{{enum}}
-
-{{decoder}}
