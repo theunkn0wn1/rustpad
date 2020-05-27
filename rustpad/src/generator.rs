@@ -1,11 +1,14 @@
 use std::collections::HashMap;
 
+use askama::Template;
 use serde_derive::{Deserialize, Serialize};
 use toml::Value;
 use toml::value::{Array, Table};
 
 #[derive(Deserialize, Debug, Serialize)]
-pub struct Raw {
+pub struct DeviceDescriptor {
+    pub name: String,
+    pub id: String,
     pub axes: Vec<AxisEvent>,
     pub triggers: Table,
     pub buttons: Vec<ButtonEvent>,
@@ -13,9 +16,17 @@ pub struct Raw {
     pub three_way: Vec<ThreeWaySwitchEvent>,
 }
 
+#[derive(Template)]
+#[template(path = "decode.rs.txt", print = "all")]
+pub struct DecodeTemplate<'a> {
+    pub button_events: &'a Vec<ButtonEvent>,
+    pub two_way_events: &'a Vec<TwoWaySwitchEvent>,
+    pub three_way_events: &'a Vec<ThreeWaySwitchEvent>,
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Event {
-    pub code: u16,
+    pub code: u32,
     pub name: String,
 }
 
@@ -26,14 +37,14 @@ pub struct AxisEvent {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ButtonEvent {
-    pub code: u16,
+    pub code: u32,
     pub pressed_name: String,
     pub released_name: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TwoWaySwitchEvent {
-    pub code: u16,
+    pub code: u32,
     pub high: String,
     pub neutral: String,
 }

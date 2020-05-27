@@ -3,10 +3,12 @@ use std::io::Read;
 
 use toml::to_string_pretty;
 
-use rustpad::generator::{AxisEvent, ButtonEvent, Event, Raw, ThreeWaySwitchEvent, TwoWaySwitchEvent};
+use rustpad::generator::{AxisEvent, ButtonEvent, Event, DeviceDescriptor, ThreeWaySwitchEvent, TwoWaySwitchEvent};
 
 fn main() {
-    let mut data = Raw {
+    let mut data = DeviceDescriptor {
+        name: "Thrustmaster Warthog Throttle".to_string(),
+        id: "44F0404".to_string(),
         axes: vec![
             AxisEvent { action: Event { code: 0, name: "ScXAction".to_string() } },
             AxisEvent { action: Event { code: 1, name: "ScYAction".to_string() } },
