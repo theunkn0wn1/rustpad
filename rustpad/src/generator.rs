@@ -17,8 +17,8 @@ pub struct DeviceDescriptor {
 }
 
 #[derive(Template)]
-#[template(path = "decode.rs.txt", print = "all")]
-pub struct DecodeTemplate<'a> {
+#[template(path = "mod.rs.txt")]
+pub struct ModuleTemplate<'a> {
     pub button_events: &'a Vec<ButtonEvent>,
     pub two_way_events: &'a Vec<TwoWaySwitchEvent>,
     pub three_way_events: &'a Vec<ThreeWaySwitchEvent>,
