@@ -1,0 +1,70 @@
+pub fn decode(event : EventType) -> Option<WarthogThrottleEvent>{
+    match event{
+        EventType::ButtonPressed(_, code) => {
+            match code.into_u32(){
+                // begin button events
+                {% for event in button_events %}
+                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.pressed_name -}})},
+                {% endfor %}
+                // end button events
+
+                // begin two-way switch events
+                {% for event in two_way_events %}
+                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.high -}})},
+                {% endfor %}
+                // end two-way switch events
+
+                // begin three-way events
+                {% for event in three_way_events %}
+                {{- event.high.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.high.name -}})},
+                {{- event.low.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.low.name -}})},
+                {% endfor %}
+                // end three-way events
+                _ => {None}
+            }
+        }
+        EventType::ButtonRepeated(_, code) => {
+            unimplemented!()
+        }
+        EventType::ButtonReleased(_, code) => {
+            match code.into_u32(){
+                // note these values are calculated from underlying  (kind<<16 | hardware_code)
+                // begin button events
+                {% for event in button_events %}
+                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.released_name -}})},
+                {% endfor %}
+                // end button events
+                // begin two-way switch events
+                {% for event in two_way_events %}
+                {{- event.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
+                {% endfor %}
+                // end two-way switch events
+
+
+                // begin three-way events
+                {% for event in three_way_events %}
+                {{- event.high.code -}}u32 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
+                {{- event.low.code}}u32 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
+                {% endfor %}
+                // end three-way events
+
+                _ => {None}
+            }
+        }
+        EventType::ButtonChanged(_, value, code) => {
+                    unimplemented!()
+        }
+        EventType::AxisChanged(_, value, code) => {
+            unimplemented!()
+        }
+        EventType::Connected => {
+            None
+        }
+        EventType::Disconnected => {
+            None
+        }
+        EventType::Dropped => {
+            None
+        }
+    }
+}
