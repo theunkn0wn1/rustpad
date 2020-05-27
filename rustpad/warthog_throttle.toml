@@ -48,6 +48,26 @@ code = 711
 high = 'EacArm'
 neutral = 'EacOff'
 
+[[two_way]]
+code = 712
+high = 'RadarAltimeterNormal'
+neutral = 'RadarAltimeterDisarm'
+
+[[two_way]]
+code = 707
+high = 'ApuStart'
+neutral = 'ApuOff'
+
+[[two_way]]
+code = 303
+high = 'EngineLeftNormal'
+neutral = 'EngineLeftOverride'
+
+[[two_way]]
+code = 704
+high = 'EngineRightNormal'
+neutral = 'EngineRightOverride'
+
 [[three_way]]
 neutral = 'AltitudeHeading'
 

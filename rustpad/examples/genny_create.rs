@@ -1,9 +1,10 @@
-use std::fs::File;
-use std::io::Read;
+use std::fs::{File, OpenOptions};
+use std::io::{Read, Write};
 
 use toml::to_string_pretty;
 
-use rustpad::generator::{AxisEvent, ButtonEvent, Event, DeviceDescriptor, ThreeWaySwitchEvent, TwoWaySwitchEvent};
+use rustpad::generator::{AxisEvent, ButtonEvent, DeviceDescriptor, Event, ThreeWaySwitchEvent, TwoWaySwitchEvent};
+use toml::ser::Error;
 
 fn main() {
     let mut data = DeviceDescriptor {
@@ -39,7 +40,24 @@ fn main() {
                 code: 711,
                 high: "EacArm".to_string(),
                 neutral: "EacOff".to_string(),
-            }
+            },
+            TwoWaySwitchEvent {
+                code: 712,
+                high: "RadarAltimeterNormal".to_string(),
+                neutral: "RadarAltimeterDisarm".to_string(),
+            }, TwoWaySwitchEvent {
+                code: 707,
+                high: "ApuStart".to_string(),
+                neutral: "ApuOff".to_string(),
+            }, TwoWaySwitchEvent {
+                code: 303,
+                high: "EngineLeftNormal".to_string(),
+                neutral: "EngineLeftOverride".to_string(),
+            }, TwoWaySwitchEvent {
+                code: 704,
+                high: "EngineRightNormal".to_string(),
+                neutral: "EngineRightOverride".to_string(),
+            },
         ],
         three_way: vec![
             ThreeWaySwitchEvent {
@@ -84,6 +102,12 @@ fn main() {
             },
         ],
     };
-
+    let mut ofile = OpenOptions::new().create(true).write(true).open("output.toml").unwrap();
+    match to_string_pretty(&data) {
+        Ok(data) => {
+            ofile.write(&data.into_bytes()).unwrap();
+        },
+        Err(_) => {},
+    }
     println!("{}", to_string_pretty(&data).unwrap());
 }
