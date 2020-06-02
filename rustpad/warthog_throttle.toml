@@ -26,8 +26,6 @@ name = 'ThrottleL'
 code = 6
 name = 'Slew'
 
-[triggers]
-
 [[buttons]]
 code = 713
 pressed_name = 'AutopilotTogglePressed'
@@ -155,3 +153,10 @@ name = 'ChForward'
 [three_way.low]
 code = 299
 name = 'ChBackward'
+
+[[hats]]
+name = "Hat"
+north = 544
+south = 545
+west = 546
+east = 547

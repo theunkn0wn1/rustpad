@@ -13,10 +13,11 @@ pub struct DeviceDescriptor {
     pub name: String,
     pub id: String,
     pub axes: Vec<AxisEvent>,
-    pub triggers: Table,
     pub buttons: Vec<ButtonEvent>,
     pub two_way: Vec<TwoWaySwitchEvent>,
     pub three_way: Vec<ThreeWaySwitchEvent>,
+    pub triggers: Option<Vec<AxisEvent>>,
+    pub hats: Option<Vec<HatEvent>>,
 }
 
 impl DeviceDescriptor {
@@ -32,7 +33,7 @@ impl DeviceDescriptor {
             button_events: &self.buttons,
             two_way_events: &self.two_way,
             three_way_events: &self.three_way,
-            axes: &self.axes
+            axes: &self.axes,
         };
         let mut file = OpenOptions::new().create(true).write(true).open(output).unwrap();
         let out: String = template.render().unwrap();
@@ -79,4 +80,13 @@ pub struct ThreeWaySwitchEvent {
     pub neutral: String,
     pub high: Event,
     pub low: Event,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct HatEvent {
+    pub name: String,
+    pub north: u32,
+    pub south: u32,
+    pub west: u32,
+    pub east: u32,
 }
