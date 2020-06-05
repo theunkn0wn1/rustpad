@@ -1,5 +1,4 @@
 use gilrs::{Button, Event, EventType, Gilrs};
-
 const LEFT_AXIS_CODE: u32 = 5;
 const RIGHT_AXIS_CODE: u32 = 2;
 
