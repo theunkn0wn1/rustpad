@@ -1,58 +1,64 @@
 use gilrs::{Button, Event, EventType, Gilrs};
 
-use crate::thrustmaster::{decode, WarthogThrottleEvent};
-
-mod thrustmaster;
 use rustpad::generator;
 
-fn main() {
+use crate::thrustmaster::{decode_warthog_throttle, WarthogThrottleEvent};
+use tokio::prelude::*;
+
+mod thrustmaster;
+use serde;
+use toml;
+use std::collections::HashMap;
+
+fn gamepad_worker() {
     println!("Hello, world!");
     let mut gilrs = Gilrs::new().unwrap();
 
-// Iterate over all connected gamepads
+    let keymap: HashMap<WarthogThrottleEvent, gilrs::ev::Code> = HashMap::new();
+    // Iterate over all connected gamepads
     for (_id, gamepad) in gilrs.gamepads() {
-        println!("{}[{:?}] is {:?}", gamepad.name(), gamepad.uuid(), gamepad.power_info());
+        println!(
+            "{}[{:?}] is {:?}",
+            gamepad.name(),
+            gamepad.uuid(),
+            gamepad.power_info(),
+        );
     }
-
-    let mut active_gamepad = None;
 
     loop {
         // Examine new events
         while let Some(Event { id, event, time }) = gilrs.next_event() {
             match event {
-                EventType::ButtonPressed(_, code) | EventType::ButtonReleased(_, code) => {
-                    let decoded = decode(event);
-                    match decoded {
-                        Some(decoded_event) => println!("successfully decode {:?}", decoded_event),
-                        None => println!("failed decode on {:?}", event),
-                    }
+                EventType::ButtonPressed(_, code)
+                | EventType::ButtonReleased(_, code)
+                | EventType::AxisChanged(_, _, code) => {
+                    let encoded = toml::to_string_pretty(&code).unwrap();
+                    println!("{}", encoded);
+                    if let Some(decoded_event) = decode_warthog_throttle(event) {
+                        println!("successful decode {:?}", decoded_event);
+                    } else {
+                        println!("event {:?}", event)
+                    };
                 }
 
-                EventType::ButtonRepeated(_, code) => {
-                    println!("ButtonRepeated, code: {:?}", code)
-                }
-                EventType::ButtonChanged(_, value, code) => {
+                EventType::ButtonRepeated(_, code) => println!("ButtonRepeated, code: {:?}", code),
+                EventType::ButtonChanged(_, _value, _code) => {
                     // println!("ButtonChanged, code: {:?}, value: {:?}", code, value, )
                 }
-                EventType::AxisChanged(_, value, code) => {
-                    println!("Axis movement, new_value: {:?}, code: {:?}", value, code)
-                }
-                EventType::Connected => {
-                    println!("new device connected")
-                }
-                EventType::Disconnected => {}
-                EventType::Dropped => {
-                    println!("event dropped!")
-                }
-            }
-            active_gamepad = Some(id);
-        }
 
-        // You can also use cached gamepad state
-        if let Some(gamepad) = active_gamepad.map(|id| gilrs.gamepad(id)) {
-            if gamepad.is_pressed(Button::South) {
-                println!("Button South is pressed (XBox - A, PS - X)");
+                EventType::Connected => println!("new device connected"),
+                EventType::Disconnected => { unimplemented!() },
+                EventType::Dropped => println!("event dropped!"),
             }
+            // Gilrs suggests calling this at the end of processing an event
+            gilrs.inc();
         }
     }
+}
+#[tokio::main]
+async fn main() {
+    println!("hello world!");
+    let gamepad_handle = std::thread::spawn(|| gamepad_worker());
+
+    gamepad_handle.join().unwrap();
 }

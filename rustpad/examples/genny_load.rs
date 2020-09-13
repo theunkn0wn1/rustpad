@@ -1,7 +1,7 @@
-use std::fs::File;
-use std::io::Read;
 use askama::Template;
 use rustpad::generator::{DeviceDescriptor, ModuleTemplate};
+use std::fs::File;
+use std::io::Read;
 use std::path::{Path, PathBuf};
 
 fn main() {

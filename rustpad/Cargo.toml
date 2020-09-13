@@ -7,9 +7,31 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-gilrs = "0.7.4"
 toml = "0.5.6"
-serde = "1.0.110"
-serde_derive = "1.0.110"
+serde_json = "1.0.57"
+serde = "1.0.116"
+serde_derive = "1.0.116"
 askama = "0.9.0"
-stick = "0.9.0"
+rover_tonic = { git = "ssh://git@gitlab.com/saddeback_rover_2020/telecom/protos.git", branch = "rust_support" }
+[dependencies.tokio]
+version = "0.2.22"
+features = ["full"]
+
+[dependencies.tonic-health]
+git = "ssh://git@github.com/hyperium/tonic.git"
+
+[dependencies.tonic]
+git = "ssh://git@github.com/hyperium/tonic.git"
+
+[dependencies.gilrs]
+version = "0.7.4"
+features = ["serde"]
+
+
+[patch.crates-io.gilrs]
+features = ["serde"]
+path = "../../gilrs/gilrs"
+
+[patch.crates-io.gilrs-core]
+features = ["serde"]
+path = "../../gilrs/gilrs-core"

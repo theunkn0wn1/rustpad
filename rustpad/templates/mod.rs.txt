@@ -1,3 +1,5 @@
+#[allow(dead_Code)]
+
 use gilrs::EventType;
 use gilrs::ev::Code;
 const EVENT_MASK:u32 = 0x0000_FFFF;
@@ -107,3 +109,39 @@ pub fn decode_warthog_throttle(event : EventType) -> Option<WarthogThrottleEvent
         _ => None
     }
 }
+
+
+pub mod codes{
+    pub enum Inputs{
+        // begin button_events
+        {% for event in button_events %}
+        {{ event.pressed_name }},
+        {% endfor %}
+        // end button_events
+
+        // begin two-way events
+        {% for event in two_way_events %}
+        {{ event.high }},
+        {{ event.neutral }},
+        {% endfor %}
+        // end two-way events
+    }
+    pub fn get_code(input: Inputs) -> Option<gilrs::ev::Code>{
+        match input {
+            // begin button_events
+            {% for event in button_events %}
+            Inputs::{{ event.pressed_name }} => { Some(serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap())},
+            {% endfor %}
+            // end button_events
+
+            // begin two-way events
+            {% for event in two_way_events %}
+            Inputs::{{ event.high }} | Inputs::{{ event.neutral }} => { Some(serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap())},
+
+            {% endfor %}
+            _ => None
+        }
+    }
+
+}
+

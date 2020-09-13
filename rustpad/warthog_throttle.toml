@@ -41,6 +41,11 @@ code = 302
 pressed_name = 'LtbPressed'
 released_name = 'LtbReleased'
 
+[[buttons]]
+code = 288
+pressed_name = 'ScPressed'
+released_name = 'ScReleased'
+
 [[two_way]]
 code = 711
 high = 'EacArm'
@@ -160,3 +165,10 @@ north = 544
 south = 545
 west = 546
 east = 547
+
+[[hats]]
+name = "SideHat"
+north = 290
+south = 292
+west = 293
+east = 291

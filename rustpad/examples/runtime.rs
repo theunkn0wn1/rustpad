@@ -2,14 +2,18 @@ use gilrs::{Button, Event, EventType, Gilrs};
 
 use rustpad::thrustmaster;
 
-
 fn main() {
     println!("Hello, world!");
     let mut gilrs = Gilrs::new().unwrap();
 
-// Iterate over all connected gamepads
+    // Iterate over all connected gamepads
     for (_id, gamepad) in gilrs.gamepads() {
-        println!("{}[{:?}] is {:?}", gamepad.name(), gamepad.uuid(), gamepad.power_info());
+        println!(
+            "{}[{:?}] is {:?}",
+            gamepad.name(),
+            gamepad.uuid(),
+            gamepad.power_info()
+        );
     }
 
     let mut active_gamepad = None;
@@ -19,11 +23,11 @@ fn main() {
         while let Some(Event { id, event, time }) = gilrs.next_event() {
             if let Some(decode_ev) = thrustmaster::decode_warthog_throttle(event) {
                 println!("decode :: {:?}", decode_ev)
-            } else{
-                match event{
-                    EventType::Connected | EventType::Disconnected | EventType::Dropped=> {
+            } else {
+                match event {
+                    EventType::Connected | EventType::Disconnected | EventType::Dropped => {
                         println!("{:?} New event from {}: {:?}", time, id, event);
-                    },
+                    }
                     _ => {}
                 }
             }
