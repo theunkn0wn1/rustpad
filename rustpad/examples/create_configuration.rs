@@ -9,7 +9,7 @@ use rustpad::generator::{
 use toml::ser::Error;
 
 fn main() {
-    let mut data = DeviceDescriptor {
+    let data = DeviceDescriptor {
         name: "Thrustmaster Warthog Throttle".to_string(),
         id: "44F0404".to_string(),
         axes: vec![
@@ -179,7 +179,9 @@ fn main() {
                 },
             },
         ],
+        hats: None
     };
+
     let mut ofile = OpenOptions::new()
         .create(true)
         .write(true)

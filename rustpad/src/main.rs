@@ -3,7 +3,6 @@ use gilrs::{Button, Event, EventType, Gilrs};
 use rustpad::generator;
 
 use crate::thrustmaster::{decode_warthog_throttle, WarthogThrottleEvent};
-use tokio::prelude::*;
 
 mod thrustmaster;
 use serde;
@@ -23,8 +22,7 @@ fn gamepad_worker() {
             gamepad.uuid(),
             gamepad.power_info(),
         );
-        let foo = String::from(gamepad.name());
-        keymap.insert(foo, gamepad);
+        keymap.insert(gamepad.name().to_string(), gamepad);
     }
 
     loop {
@@ -57,10 +55,7 @@ fn gamepad_worker() {
         }
     }
 }
-#[tokio::main]
-async fn main() {
+fn main() {
     println!("hello world!");
-    let gamepad_handle = std::thread::spawn(|| gamepad_worker());
-
-    gamepad_handle.join().unwrap();
+    gamepad_worker();
 }
