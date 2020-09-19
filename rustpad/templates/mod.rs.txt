@@ -126,20 +126,20 @@ pub mod codes{
         {% endfor %}
         // end two-way events
     }
-    pub fn get_code(input: Inputs) -> Option<gilrs::ev::Code>{
+    pub fn get_code(input: Inputs) -> gilrs::ev::Code{
         match input {
             // begin button_events
             {% for event in button_events %}
-            Inputs::{{ event.pressed_name }} => { Some(serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap())},
+            Inputs::{{ event.pressed_name }} => { serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap()},
             {% endfor %}
             // end button_events
 
             // begin two-way events
             {% for event in two_way_events %}
-            Inputs::{{ event.high }} | Inputs::{{ event.neutral }} => { Some(serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap())},
+            Inputs::{{ event.high }} | Inputs::{{ event.neutral }} => { serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap()},
 
             {% endfor %}
-            _ => None
+            _ => unimplemented!()
         }
     }
 

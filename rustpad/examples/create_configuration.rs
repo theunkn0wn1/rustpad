@@ -3,7 +3,9 @@ use std::io::{Read, Write};
 
 use toml::to_string_pretty;
 
-use rustpad::generator::{AxisEvent, ButtonEvent, DeviceDescriptor, Event, ThreeWaySwitchEvent, TwoWaySwitchEvent};
+use rustpad::generator::{
+    AxisEvent, ButtonEvent, DeviceDescriptor, Event, ThreeWaySwitchEvent, TwoWaySwitchEvent,
+};
 use toml::ser::Error;
 
 fn main() {
@@ -11,11 +13,36 @@ fn main() {
         name: "Thrustmaster Warthog Throttle".to_string(),
         id: "44F0404".to_string(),
         axes: vec![
-            AxisEvent { action: Event { code: 0, name: "ScXAction".to_string() } },
-            AxisEvent { action: Event { code: 1, name: "ScYAction".to_string() } },
-            AxisEvent { action: Event { code: 2, name: "ThrottleR".to_string() } },
-            AxisEvent { action: Event { code: 5, name: "ThrottleL".to_string() } },
-            AxisEvent { action: Event { code: 6, name: "Slew".to_string() } },
+            AxisEvent {
+                action: Event {
+                    code: 0,
+                    name: "ScXAction".to_string(),
+                },
+            },
+            AxisEvent {
+                action: Event {
+                    code: 1,
+                    name: "ScYAction".to_string(),
+                },
+            },
+            AxisEvent {
+                action: Event {
+                    code: 2,
+                    name: "ThrottleR".to_string(),
+                },
+            },
+            AxisEvent {
+                action: Event {
+                    code: 5,
+                    name: "ThrottleL".to_string(),
+                },
+            },
+            AxisEvent {
+                action: Event {
+                    code: 6,
+                    name: "Slew".to_string(),
+                },
+            },
         ],
         triggers: Default::default(),
         buttons: vec![
@@ -45,15 +72,18 @@ fn main() {
                 code: 712,
                 high: "RadarAltimeterNormal".to_string(),
                 neutral: "RadarAltimeterDisarm".to_string(),
-            }, TwoWaySwitchEvent {
+            },
+            TwoWaySwitchEvent {
                 code: 707,
                 high: "ApuStart".to_string(),
                 neutral: "ApuOff".to_string(),
-            }, TwoWaySwitchEvent {
+            },
+            TwoWaySwitchEvent {
                 code: 303,
                 high: "EngineLeftNormal".to_string(),
                 neutral: "EngineLeftOverride".to_string(),
-            }, TwoWaySwitchEvent {
+            },
+            TwoWaySwitchEvent {
                 code: 704,
                 high: "EngineRightNormal".to_string(),
                 neutral: "EngineRightOverride".to_string(),
@@ -62,52 +92,104 @@ fn main() {
         three_way: vec![
             ThreeWaySwitchEvent {
                 neutral: "AltitudeHeading".to_string(),
-                high: Event { code: 714, name: "Path".to_string() },
-                low: Event { code: 715, name: "Alt".to_string() },
+                high: Event {
+                    code: 714,
+                    name: "Path".to_string(),
+                },
+                low: Event {
+                    code: 715,
+                    name: "Alt".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "Maneuver".to_string(),
-                high: Event { code: 709, name: "Up".to_string() },
-                low: Event { code: 710, name: "Down".to_string() },
+                high: Event {
+                    code: 709,
+                    name: "Up".to_string(),
+                },
+                low: Event {
+                    code: 710,
+                    name: "Down".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "LeftNormal".to_string(),
-                high: Event { code: 718, name: "LeftIgnition".to_string() },
-                low: Event { code: 705, name: "LeftMotor".to_string() },
+                high: Event {
+                    code: 718,
+                    name: "LeftIgnition".to_string(),
+                },
+                low: Event {
+                    code: 705,
+                    name: "LeftMotor".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "RightNormal".to_string(),
-                high: Event { code: 719, name: "RightIgnition".to_string() },
-                low: Event { code: 706, name: "RightMotor".to_string() },
+                high: Event {
+                    code: 719,
+                    name: "RightIgnition".to_string(),
+                },
+                low: Event {
+                    code: 706,
+                    name: "RightMotor".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "PsNeutral".to_string(),
-                high: Event { code: 300, name: "PsForward".to_string() },
-                low: Event { code: 301, name: "PsBackward".to_string() },
+                high: Event {
+                    code: 300,
+                    name: "PsForward".to_string(),
+                },
+                low: Event {
+                    code: 301,
+                    name: "PsBackward".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "SpdNeutral".to_string(),
-                high: Event { code: 294, name: "SpdForward".to_string() },
-                low: Event { code: 295, name: "SpdBackward".to_string() },
+                high: Event {
+                    code: 294,
+                    name: "SpdForward".to_string(),
+                },
+                low: Event {
+                    code: 295,
+                    name: "SpdBackward".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "BsNeutral".to_string(),
-                high: Event { code: 296, name: "BsForward".to_string() },
-                low: Event { code: 297, name: "BsBackward".to_string() },
+                high: Event {
+                    code: 296,
+                    name: "BsForward".to_string(),
+                },
+                low: Event {
+                    code: 297,
+                    name: "BsBackward".to_string(),
+                },
             },
             ThreeWaySwitchEvent {
                 neutral: "ChNeutral".to_string(),
-                high: Event { code: 298, name: "ChForward".to_string() },
-                low: Event { code: 299, name: "ChBackward".to_string() },
+                high: Event {
+                    code: 298,
+                    name: "ChForward".to_string(),
+                },
+                low: Event {
+                    code: 299,
+                    name: "ChBackward".to_string(),
+                },
             },
         ],
     };
-    let mut ofile = OpenOptions::new().create(true).write(true).open("output.toml").unwrap();
+    let mut ofile = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open("output.toml")
+        .unwrap();
     match to_string_pretty(&data) {
         Ok(data) => {
             ofile.write(&data.into_bytes()).unwrap();
-        },
-        Err(_) => {},
+        }
+        Err(_) => {}
     }
     println!("{}", to_string_pretty(&data).unwrap());
 }

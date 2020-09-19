@@ -7,14 +7,14 @@ use tokio::prelude::*;
 
 mod thrustmaster;
 use serde;
-use toml;
 use std::collections::HashMap;
+use toml;
 
 fn gamepad_worker() {
     println!("Hello, world!");
     let mut gilrs = Gilrs::new().unwrap();
 
-    let keymap: HashMap<WarthogThrottleEvent, gilrs::ev::Code> = HashMap::new();
+    let mut keymap: HashMap<String, gilrs::Gamepad> = HashMap::new();
     // Iterate over all connected gamepads
     for (_id, gamepad) in gilrs.gamepads() {
         println!(
@@ -23,6 +23,8 @@ fn gamepad_worker() {
             gamepad.uuid(),
             gamepad.power_info(),
         );
+        let foo = String::from(gamepad.name());
+        keymap.insert(foo, gamepad);
     }
 
     loop {
@@ -47,7 +49,7 @@ fn gamepad_worker() {
                 }
 
                 EventType::Connected => println!("new device connected"),
-                EventType::Disconnected => { unimplemented!() },
+                EventType::Disconnected => unimplemented!(),
                 EventType::Dropped => println!("event dropped!"),
             }
             // Gilrs suggests calling this at the end of processing an event

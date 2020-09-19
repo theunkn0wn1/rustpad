@@ -25,13 +25,5 @@ git = "ssh://git@github.com/hyperium/tonic.git"
 
 [dependencies.gilrs]
 version = "0.7.4"
-features = ["serde"]
-
-
-[patch.crates-io.gilrs]
-features = ["serde"]
-path = "../../gilrs/gilrs"
-
-[patch.crates-io.gilrs-core]
-features = ["serde"]
-path = "../../gilrs/gilrs-core"
+features = ["serde-serialize"]
+git = "https://gitlab.com/gilrs-project/gilrs.git"

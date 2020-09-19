@@ -5,8 +5,8 @@ use std::path::PathBuf;
 
 use askama::Template;
 use serde_derive::{Deserialize, Serialize};
-use toml::Value;
 use toml::value::{Array, Table};
+use toml::Value;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct DeviceDescriptor {
@@ -35,7 +35,11 @@ impl DeviceDescriptor {
             three_way_events: &self.three_way,
             axes: &self.axes,
         };
-        let mut file = OpenOptions::new().create(true).write(true).open(output).unwrap();
+        let mut file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open(output)
+            .unwrap();
         let out: String = template.render().unwrap();
         file.write_all(out.as_ref()).unwrap()
     }
@@ -58,7 +62,7 @@ pub struct Event {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct AxisEvent {
-    pub action: Event
+    pub action: Event,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
