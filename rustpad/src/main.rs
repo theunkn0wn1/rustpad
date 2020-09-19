@@ -1,13 +1,11 @@
 use gilrs::{Button, Event, EventType, Gilrs};
 
-use rustpad::generator;
 
 use crate::thrustmaster::{decode_warthog_throttle, WarthogThrottleEvent};
 
-mod thrustmaster;
-use serde;
 use std::collections::HashMap;
 use toml;
+use rustpad::thrustmaster;
 
 fn gamepad_worker() {
     println!("Hello, world!");
@@ -27,7 +25,7 @@ fn gamepad_worker() {
 
     loop {
         // Examine new events
-        while let Some(Event { id, event, time }) = gilrs.next_event() {
+        while let Some(Event { id, event, time: _ }) = gilrs.next_event() {
             match event {
                 EventType::ButtonPressed(_, code)
                 | EventType::ButtonReleased(_, code)

@@ -1,4 +1,4 @@
-#[allow(dead_Code)]
+#[allow(dead_code)]
 
 use gilrs::EventType;
 use gilrs::ev::Code;
