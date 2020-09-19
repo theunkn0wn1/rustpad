@@ -279,9 +279,20 @@ version = "0.1.0"
 dependencies = [
  "askama",
  "gilrs",
+ "rustpad_generator",
  "serde",
  "serde_derive",
  "serde_json",
+ "toml",
+]
+
+[[package]]
+name = "rustpad_generator"
+version = "0.1.0"
+dependencies = [
+ "askama",
+ "serde",
+ "serde_derive",
  "toml",
 ]
 

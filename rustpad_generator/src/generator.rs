@@ -1,12 +1,8 @@
-use std::collections::HashMap;
+use askama::Template;
+use serde_derive::{Deserialize, Serialize};
 use std::fs::OpenOptions;
 use std::io::{Read, Write};
 use std::path::PathBuf;
-
-use askama::Template;
-use serde_derive::{Deserialize, Serialize};
-use toml::value::{Array, Table};
-use toml::Value;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct DeviceDescriptor {
