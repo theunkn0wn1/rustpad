@@ -1,7 +1,6 @@
 use gilrs::{Button, Event, EventType, Gilrs};
 use rustpad::thrustmaster::codes;
 use rustpad::thrustmaster::decode_warthog_throttle;
-use serde::Serialize;
 use std::fs::File;
 
 const LEFT_AXIS_CODE: u32 = 5;

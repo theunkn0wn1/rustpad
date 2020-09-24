@@ -1,14 +1,12 @@
 use gilrs::{Button, Event, EventType, Gilrs};
 
 
-use crate::thrustmaster::{decode_warthog_throttle, WarthogThrottleEvent};
+use rustpad::thrustmaster::{decode_warthog_throttle, WarthogThrottleEvent};
 
 use std::collections::HashMap;
 use toml;
-use rustpad::thrustmaster;
 
 fn gamepad_worker() {
-    println!("Hello, world!");
     let mut gilrs = Gilrs::new().unwrap();
 
     let mut keymap: HashMap<String, gilrs::Gamepad> = HashMap::new();
@@ -27,11 +25,9 @@ fn gamepad_worker() {
         // Examine new events
         while let Some(Event { id, event, time: _ }) = gilrs.next_event() {
             match event {
-                EventType::ButtonPressed(_, code)
-                | EventType::ButtonReleased(_, code)
-                | EventType::AxisChanged(_, _, code) => {
-                    let encoded = toml::to_string_pretty(&code).unwrap();
-                    println!("{}", encoded);
+                EventType::ButtonPressed(_, _code)
+                | EventType::ButtonReleased(_, _code)
+                | EventType::AxisChanged(_, _, _code) => {
                     if let Some(decoded_event) = decode_warthog_throttle(event) {
                         println!("successful decode {:?}", decoded_event);
                     } else {
@@ -54,6 +50,7 @@ fn gamepad_worker() {
     }
 }
 fn main() {
-    println!("hello world!");
+    println!("Hello, world!");
+
     gamepad_worker();
 }
