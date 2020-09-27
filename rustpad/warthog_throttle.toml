@@ -27,6 +27,16 @@ code = 6
 name = 'Slew'
 
 [[buttons]]
+code = 717
+pressed_name = 'LeftThrottleOFF'
+released_name = 'LeftThrottleON'
+
+[[buttons]]
+code = 716
+pressed_name = 'RightThrottleOFF'
+released_name = 'RightThrottleON'
+
+[[buttons]]
 code = 713
 pressed_name = 'AutopilotTogglePressed'
 released_name = 'AutopilotToggleReleased'

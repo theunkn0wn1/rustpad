@@ -280,6 +280,7 @@ dependencies = [
  "gilrs",
  "rustpad_generator",
  "serde_json",
+ "toml",
 ]
 
 [[package]]
