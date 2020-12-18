@@ -4,6 +4,8 @@ use std::path::PathBuf;
 
 fn main() {
     println!("cargo:rerun-if-changed=warthog_throttle.toml");
+    println!("cargo:rerun-if-changed=build.rs");
+
     let out_dir = std::env::var("OUT_DIR").unwrap();
 
     let input = PathBuf::from("warthog_throttle.toml");

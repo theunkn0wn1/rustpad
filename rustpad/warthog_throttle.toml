@@ -47,6 +47,15 @@ pressed_name = 'LandingGearSilencePressed'
 released_name = 'LandingGearSilenceReleased'
 
 [[buttons]]
+code = 717
+pressed_name = 'ThrottleLOff'
+released_name = 'ThrottleLOn'
+[[buttons]]
+code = 716
+pressed_name = 'ThrottleROff'
+released_name = 'ThrottleROn'
+
+[[buttons]]
 code = 302
 pressed_name = 'LtbPressed'
 released_name = 'LtbReleased'
