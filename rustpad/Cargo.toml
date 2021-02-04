@@ -12,7 +12,6 @@ toml = "*"
 
 
 [dependencies.gilrs]
-version = "0.7.4"
 features = ["serde-serialize"]
 git = "https://gitlab.com/gilrs-project/gilrs.git"
 

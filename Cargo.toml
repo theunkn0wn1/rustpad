@@ -1,2 +1,2 @@
 [workspace]
-members = ["rustpad", "rustpad_generator"]
+members = ["rustpad", "rustpad_generator",]
