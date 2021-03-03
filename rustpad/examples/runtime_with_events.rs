@@ -1,7 +1,6 @@
 use gilrs::{Event, EventType, Gilrs};
 
-use rustpad::thrustmaster::warthog_stick::{decode_warthog_stick, warthog_stickEvent};
-use rustpad::thrustmaster::warthog_throttle::{decode_warthog_throttle, warthog_throttleEvent};
+use rustpad::thrustmaster::warthog_stick::{decode_WarthogStick, WarthogStickEvent};
 
 use std::collections::HashMap;
 
@@ -27,7 +26,7 @@ fn gamepad_worker() {
                 EventType::ButtonPressed(_, _code)
                 | EventType::ButtonReleased(_, _code)
                 | EventType::AxisChanged(_, _, _code) => {
-                    if let Some(decoded_event) = decode_warthog_stick(event) {
+                    if let Some(decoded_event) = decode_WarthogStick(event) {
                         println!("successful decode {:?}", decoded_event);
                     } else {
                         println!("event {:?}", event)

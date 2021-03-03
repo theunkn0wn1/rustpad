@@ -1,6 +1,6 @@
 use gilrs::{Button, Event, EventType, Gilrs};
-use rustpad::thrustmaster::codes;
-use rustpad::thrustmaster::decode_warthog_throttle;
+use rustpad::thrustmaster::warthog_throttle::codes;
+use rustpad::thrustmaster::warthog_throttle::decode_WarthogThrottle;
 use std::fs::File;
 
 const LEFT_AXIS_CODE: u32 = 5;
@@ -28,7 +28,7 @@ fn main() {
             println!("{:?} New event from {}: {:?}", time, id, event);
             match event {
                 EventType::ButtonPressed(_, code) | EventType::ButtonReleased(_, code) => {
-                    if let Some(decoded_event) = decode_warthog_throttle(event) {
+                    if let Some(decoded_event) = decode_WarthogThrottle(event) {
                         println!("successful decode {:?}", decoded_event);
                     } else {
                         println!("event {:?}", event)

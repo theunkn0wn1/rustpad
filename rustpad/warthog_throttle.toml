@@ -1,4 +1,4 @@
-name = 'warthog_throttle'
+name = 'WarthogThrottle'
 id = '44F0404'
 
 [[axes]]
