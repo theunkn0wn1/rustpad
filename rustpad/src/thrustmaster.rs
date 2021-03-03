@@ -1,1 +1,2 @@
-include!(concat!(env!("OUT_DIR"), "/thrustmaster.rs"));
+pub mod warthog_stick;
+pub mod warthog_throttle;

@@ -179,7 +179,7 @@ fn main() {
                 },
             },
         ],
-        hats: None
+        hats: None,
     };
 
     let mut ofile = OpenOptions::new()

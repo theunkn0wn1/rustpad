@@ -1,0 +1,47 @@
+name = "warthog_stick"
+id ="Something"
+
+[[axes]]
+[axes.action]
+code = 0
+name = 'ScXAction'
+[[axes]]
+[axes.action]
+code = 1
+name = 'ScYAction'
+
+[[buttons]]
+code = 288
+pressed_name = 'TriggerSoftPressed'
+released_name = 'TriggerSoftReleased'
+
+[[buttons]]
+code = 293
+pressed_name = 'TriggerHardPressed'
+released_name = 'TriggerHardReleased'
+
+[[buttons]]
+code = 291
+pressed_name = 'PaddlePressed'
+released_name = 'PaddleReleased'
+
+[[buttons]]
+code = 290
+pressed_name = 'PinkiePressed'
+released_name = 'PinkieReleased'
+
+[[two_way]]
+code = 707
+high = 'ApuStart'
+neutral = 'ApuOff'
+
+[[three_way]]
+neutral = 'AltitudeHeading'
+
+[three_way.high]
+code = 714
+name = 'Path'
+
+[three_way.low]
+code = 715
+name = 'Alt'

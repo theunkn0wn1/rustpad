@@ -13,7 +13,7 @@ impl GetEvent for Code{
 }
 
 #[derive(Debug, Copy, Clone)]
-pub enum WarthogThrottleEvent{
+pub enum {{ id }}Event{
     // begin button_events
     {% for event in button_events %}
     {{- event.pressed_name }},
@@ -46,26 +46,26 @@ pub enum WarthogThrottleEvent{
     ButtonHeld(u16)
 }
 
-pub fn decode_warthog_throttle(event : EventType) -> Option<WarthogThrottleEvent>{
+pub fn decode_{{ id }}(event : EventType) -> Option<{{ id }}Event>{
     match event{
         EventType::ButtonPressed(_, code)=> {
             match code.get_code(){
                 // begin button events
                 {% for event in button_events %}
-                {{- event.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.pressed_name -}})},
+                {{- event.code -}}u16 => {Some({{ id }}Event::{{- event.pressed_name -}})},
                 {% endfor %}
                 // end button events
 
                 // begin two-way switch events
                 {% for event in two_way_events %}
-                {{- event.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.high -}})},
+                {{- event.code -}}u16 => {Some({{ id }}Event::{{- event.high -}})},
                 {% endfor %}
                 // end two-way switch events
 
                 // begin three-way events
                 {% for event in three_way_events %}
-                {{- event.high.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.high.name -}})},
-                {{ event.low.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.low.name -}})},
+                {{- event.high.code -}}u16 => {Some({{ id }}Event::{{- event.high.name -}})},
+                {{ event.low.code -}}u16 => {Some({{ id }}Event::{{- event.low.name -}})},
                 {% endfor %}
                 // end three-way events
                 _ => {None}
@@ -76,20 +76,20 @@ pub fn decode_warthog_throttle(event : EventType) -> Option<WarthogThrottleEvent
             match code.get_code(){
                 // begin button events
                 {% for event in button_events %}
-                {{- event.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.released_name -}})},
+                {{- event.code -}}u16 => {Some({{ id }}Event::{{- event.released_name -}})},
                 {% endfor %}
                 // end button events
                 // begin two-way switch events
                 {% for event in two_way_events %}
-                {{- event.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
+                {{- event.code -}}u16 => {Some({{ id }}Event::{{- event.neutral -}})},
                 {% endfor %}
                 // end two-way switch events
 
 
                 // begin three-way events
                 {% for event in three_way_events %}
-                {{- event.high.code -}}u16 => {Some(WarthogThrottleEvent::{{- event.neutral -}})},
-                {{ event.low.code}}u16 => {Some(WarthogThrottleEvent::{{ event.neutral -}})},
+                {{- event.high.code -}}u16 => {Some({{ id }}Event::{{- event.neutral -}})},
+                {{ event.low.code}}u16 => {Some({{ id }}Event::{{ event.neutral -}})},
                 {% endfor %}
                 // end three-way events
 
@@ -100,7 +100,7 @@ pub fn decode_warthog_throttle(event : EventType) -> Option<WarthogThrottleEvent
                 // begin Absolute axis events
             match code.get_code(){
                 {% for event in axes %}
-                {{- event.action.code }}u16 => Some(WarthogThrottleEvent::{{ event.action.name }}(value)),
+                {{- event.action.code }}u16 => Some({{ id }}Event::{{ event.action.name }}(value)),
                 {% endfor %}
                         // end Absolute axis events
                 _ => {None}
@@ -144,4 +144,3 @@ pub mod codes{
     }
 
 }
-

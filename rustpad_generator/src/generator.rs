@@ -30,6 +30,7 @@ impl DeviceDescriptor {
             two_way_events: &self.two_way,
             three_way_events: &self.three_way,
             axes: &self.axes,
+            id: &self.name,
         };
         let mut file = OpenOptions::new()
             .create(true)
@@ -48,6 +49,7 @@ pub struct ModuleTemplate<'a> {
     pub two_way_events: &'a Vec<TwoWaySwitchEvent>,
     pub three_way_events: &'a Vec<ThreeWaySwitchEvent>,
     pub axes: &'a Vec<AxisEvent>,
+    pub id: &'a str,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

@@ -1,4 +1,4 @@
-name = 'Thrustmaster Warthog Throttle'
+name = 'warthog_throttle'
 id = '44F0404'
 
 [[axes]]
