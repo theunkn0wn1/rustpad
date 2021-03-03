@@ -125,6 +125,11 @@ pub mod codes{
         {{ event.neutral }},
         {% endfor %}
         // end two-way events
+        // begin axies
+        {% for event in axes %}
+        {{event.action.name}},
+        {% endfor %}
+        // end axies
     }
     pub fn get_code(input: Inputs) -> gilrs::ev::Code{
         match input {
@@ -137,8 +142,13 @@ pub mod codes{
             // begin two-way events
             {% for event in two_way_events %}
             Inputs::{{ event.high }} | Inputs::{{ event.neutral }} => { serde_json::from_str("{\"kind\":1,\"code\":{{event.code}}}").unwrap()},
-
             {% endfor %}
+
+            // begin axies
+            {% for event in axes %}
+            Inputs::{{- event.action.name}} => { serde_json::from_str("{\"kind\":3,\"code\":{{event.action.code}}}").unwrap()},
+            {% endfor %}
+            // end axies
             _ => unimplemented!()
         }
     }
